@@ -15,5 +15,15 @@ $(document).ready(function (){
         $('.step_date').addClass('step-hide');
         $('.step_email').removeClass('step-hide');
 
+    });
+
+    // change date survey
+    $('.survey_box').on('click', '.obj_survey_click', function (){
+           var dataObj = $(this).data('obj');
+           $('input[name="obj_survey"]').val(dataObj);
+    });
+    $('.btn-run-now').on('click', function (){
+        $('input[name="status"]').val(1);
     })
+
 })
