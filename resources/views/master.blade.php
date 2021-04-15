@@ -499,50 +499,11 @@
                 }
             })
         });
-        // detail Quiz
-        {{--$('.show-ajax').on('click', '.btn-edit-quiz', function (){--}}
-        {{--      var idQuiz = $(this).data('id');--}}
-        {{--    $.ajax({--}}
-        {{--        url: "{{ route('getdetailQuiz') }}",--}}
-        {{--        method: "POST",--}}
-        {{--        data: {id: idQuiz, _token: '{{ csrf_token() }}'},--}}
-        {{--        dataType: "json",--}}
-        {{--        success: function (data) {--}}
-
-        {{--            $('.quiz-append').html(data.html);--}}
-
-        {{--        }--}}
-        {{--    })--}}
-        {{--});--}}
-
-        {{--$('.quiz-append').on('click', '.update-quiz', function (){--}}
-        {{--      var quizID = $(this).data('quiz');--}}
-        {{--      var type = $('.sl_type_quiz').val();--}}
-        {{--      var quiz_name = $('input[name="quiz_name"]').val();--}}
-        {{--      var anser = [];--}}
-        {{--      if(type == 4){--}}
-        {{--          $('input[name^="anwser_opt"]').each(function(){--}}
-        {{--              var val = $(this).val();--}}
-        {{--              anser.push(val);--}}
-        {{--          });--}}
-        {{--      }--}}
-        {{--    $.ajax({--}}
-        {{--        url: "{{ route('updateQuiz') }}",--}}
-        {{--        method: "POST",--}}
-        {{--        data: {id: quizID, type: type, name: quiz_name, anser: anser, _token: '{{ csrf_token() }}'},--}}
-        {{--        dataType: "json",--}}
-        {{--        success: function (data) {--}}
-        {{--            $('.quiz_append_'+quizID+'').html(data.html);--}}
-        {{--            $('#popupQuiz .close').trigger('click');--}}
-
-        {{--        }--}}
-        {{--    })--}}
-        {{--});--}}
 
         // update status survey
         $('.btn_paused_survey').on('click', function (){
               var id = $(this).data('id');
-            var status = $(this).data('status');
+              var status = $(this).data('status');
             $.ajax({
                 url: "{{ route('updateStatusSurvey') }}",
                 method: "POST",
@@ -573,6 +534,23 @@
             ajaxChangeDateVal(timeRepeat,dateStart);
 
         });
+
+        // delele Survey
+        $('.btn_delete_survey').on('click', function (){
+            if(confirm('Bạn có chắc chắn muốn xóa')){
+                 var id = $(this).data('id');
+                 $.ajax({
+                    url: "{{ route('deleteSurvey') }}",
+                    method: "POST",
+                    data: {id: id, _token: '{{ csrf_token() }}'},
+                    dataType: "json",
+                    success: function (data) {
+                         location.reload();
+
+                    }
+                })
+            }
+        })
 
 
     });

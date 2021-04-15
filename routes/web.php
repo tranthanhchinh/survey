@@ -97,6 +97,7 @@ Route::middleware('verifiedLoginUser')->prefix('/')->group(function (){
         Route::post('/quiz/update', [SurveyController::class, 'updateQuiz'])->name('updateQuiz');
         Route::post('/status', [SurveyController::class, 'updateStatusSurvey'])->name('updateStatusSurvey');
         Route::post('/ajax/changedate', [SurveyController::class, 'ajaxChangeDateSurvey'])->name('ajaxChangeDateSurvey');
+        Route::post('/delete',[SurveyController::class, 'deleteSurvey'])->name('deleteSurvey');
     });
 
 

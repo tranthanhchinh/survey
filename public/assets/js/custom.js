@@ -4,8 +4,18 @@ $(document).ready(function (){
     })
 
     $('.survey_box').on('click','.btn-step-survey', function (){
-         $('.step_survey').addClass('step-hide');
-        $('.step_give').removeClass('step-hide');
+         var check = true;
+         var titleSurvey = $(this).closest('#btn_add_survey').find('input[name="name_survey"]').val();
+         if(titleSurvey == ''){
+             check = false;
+         }else{
+             $('.step_survey').addClass('step-hide');
+             $('.step_give').removeClass('step-hide');
+         }
+        console.log(check);
+         console.log(titleSurvey);
+         debugger;
+
     })
     $('.survey_box').on('click','.btn-step-give', function (){
         $('.step_give').addClass('step-hide');

@@ -111,6 +111,7 @@ class SurveyController extends Controller
          $emailSurvey->title = $request->title_email;
          $emailSurvey->content = $request->content_email;
          $emailSurvey->survey_id = $idSurvey;
+         $emailSurvey->save();
          return redirect()->route('listSurveyCompany')->with('message','Tạo khảo sát thành công');
     }
     public function updateSurvey(Request $request){
@@ -190,51 +191,6 @@ class SurveyController extends Controller
     }
 
 
-
-
-//    public function getdetailQuiz(Request $request){
-//        $idQuiz = (int)$request->id;
-//        $quiz = Quiz::where('id','=',$idQuiz)->first();
-//        $anwsers = Quiz::find($idQuiz)->quizAnwser;
-//        $quiz->anwsers = $anwsers;
-//        $returnHTML = view('Admin.Survey.quiz_edit')->with('quizs', $quiz)->render();
-//        return response()->json(array('success' => true, 'html'=>$returnHTML));
-//
-//    }
-//
-//    public function updateQuiz(Request $request){
-//        $idQuiz = (int)$request->id;
-//        $type = (int)$request->type;
-//        $name = $request->name;
-//        $anwser = $request->anser;
-//        $quizs = Quiz::find($idQuiz);
-//        $quizs->title = $name;
-//        $quizs->type = $type;
-//        if($type == 4){
-//             QuizAnwser::where('quiz_id','=',$idQuiz)->delete();
-//             foreach ($anwser as $val){
-//                 $anwsers = new QuizAnwser();
-//                 $anwsers->answer = $val;
-//                 $anwsers->quiz_id = $idQuiz;
-//                 $anwsers->type = $quizs->type;
-//                 $anwsers->save();
-//             }
-//        }else{
-//            QuizAnwser::where('quiz_id','=',$idQuiz)->delete();
-//        }
-//        if($quizs->save()){
-//            $dateTemp = array(
-//                'id'=> $idQuiz,
-//                'quiz_name' => $name,
-//                'type' => $type,
-//                'anwser' => $anwser
-//            );
-//
-//            $returnHTML = view('Admin.Survey.temp_quiz_edit')->with('quiz', $dateTemp)->render();
-//            return response()->json(array('success' => true, 'html'=>$returnHTML));
-//        }
-//    }
-
     public function updateStatusSurvey(Request $request){
              $id = (int)$request->id;
              $status = (int)$request->status;
@@ -266,5 +222,22 @@ class SurveyController extends Controller
         $endDate = date ( 'Y-m-j' , $endDate );
 
         return response()->json(['end_date'=>$endDate]);
+    }
+
+    public function deleteSurvey(Request $request){
+           if(session('user')){
+            $companyID = session('user')[0]->id;
+            }
+           $id = (int)$request->id;
+           $checkIdSurvey = Survey::where('id','=',$id )->count();
+           if($checkIdSurvey>0 && isset($companyID)){
+                Survey::where('id', '=', $id)->delete();
+                QuestionGroup::where('survey_id', '=',$id)->delete();
+                Quiz::where('survey_id', '=', $id)->delete();
+                QuizAnwser::where('survey_id', '=', $id)->delete();
+                AssignSurvey::where('survey_id', '=', $id)->delete();
+                EmailSurvey::where('survey_id', '=', $id)->delete();
+                return response()->json(['message'=> 'Susscess']);
+           }
     }
 }
