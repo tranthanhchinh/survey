@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Survey;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company\Department;
+use App\Models\Company\UserStaff;
+use App\Models\Survey\AssignSurvey;
+use App\Models\Survey\EmailSurvey;
 use App\Models\Survey\QuestionGroup;
 use App\Models\Survey\Quiz;
 use App\Models\Survey\QuizAnwser;
 use App\Models\Survey\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Queue\RedisQueue;
 
 class SurveyController extends Controller
 {
@@ -17,8 +22,9 @@ class SurveyController extends Controller
             $companyID = session('user')[0]->id;
         }
         $listSurvey = Survey::where('company_id', '=', $companyID)->orderBy('created_at', 'desc')->get();
-//        dd($listSurvey);
-         return view('Admin.Survey.company_survey_list', ['listSurvey'=>$listSurvey]);
+        $staff = UserStaff::where('company_id', $companyID)->orderBy('created_at', 'desc')->get();
+        $department = Department::where('company_id', $companyID)->orderBy('created_at', 'desc')->get();
+         return view('Admin.Survey.company_survey_list', ['listSurvey'=>$listSurvey, 'staffs'=>$staff, 'deparments'=>$department]);
     }
 
     public function addSurvey(){
@@ -33,6 +39,10 @@ class SurveyController extends Controller
          $survey->name = $request->name_survey;
          $survey->description = $request->introduce_survey;
          $survey->company_id = $companyID;
+         $survey->date_start = $request->start_date;
+         $survey->date_stop = $request->end_date;
+         $survey->survey_repeat = $request->time_repeat;
+         $survey->status = $request->status;
          if($survey->save()){
              $idSurvey = $survey->id;
          }
@@ -65,6 +75,42 @@ class SurveyController extends Controller
              }
 
          }
+         $objSurvey = $request->obj_survey;
+         // 1: Tất cả; 2: Phòng ban; 3: Nhân viên; 4: địa chỉ email
+         if($objSurvey == 1){
+             $staffs = UserStaff::where('company_id', '=', $companyID)->get();
+             foreach ($staffs as $staff){
+                    $asignSurvey = new AssignSurvey();
+                    $asignSurvey->email = $staff->email;
+                    $asignSurvey->survey_id = $idSurvey;
+                    $asignSurvey->save();
+             }
+         }elseif($objSurvey == 2){
+              foreach ($request->department as $depamentID){
+                     $staffs = UserStaff::where('department_id', $depamentID)->get();
+                     foreach ($staffs as $staff){
+                         $asignSurvey = new AssignSurvey();
+                         $asignSurvey->email = $staff->email;
+                         $asignSurvey->survey_id = $idSurvey;
+                         $asignSurvey->save();
+                     }
+              }
+
+         }elseif($objSurvey == 3){
+             foreach ($request->staff as $staff){
+                 $asignSurvey = new AssignSurvey();
+                 $asignSurvey->email = $staff;
+                 $asignSurvey->survey_id = $idSurvey;
+                 $asignSurvey->save();
+             }
+
+         }else{
+              // get impport file excel
+         }
+         $emailSurvey = new EmailSurvey();
+         $emailSurvey->title = $request->title_email;
+         $emailSurvey->content = $request->content_email;
+         $emailSurvey->survey_id = $idSurvey;
          return redirect()->route('listSurveyCompany')->with('message','Tạo khảo sát thành công');
     }
     public function updateSurvey(Request $request){
@@ -200,5 +246,25 @@ class SurveyController extends Controller
                   return response()->json(array('success' => true));
              }
 
+    }
+
+    public function ajaxChangeDateSurvey(Request $request){
+        $timeRepeat = $request->timeRepeat;
+        $startDate = $request->dateStart;
+        $dateSum = '';
+
+        if($timeRepeat == 1){
+            $dateSum = '+7 day';
+        }elseif($timeRepeat == 2){
+            $dateSum = '+1 month';
+        }elseif($timeRepeat == 3){
+            $dateSum = '+3 month';
+        }else{
+            $dateSum = '+5 year';
+        }
+        $endDate = strtotime ( $dateSum , strtotime ( $startDate ) ) ;
+        $endDate = date ( 'Y-m-j' , $endDate );
+
+        return response()->json(['end_date'=>$endDate]);
     }
 }

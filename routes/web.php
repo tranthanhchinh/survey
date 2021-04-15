@@ -88,7 +88,7 @@ Route::middleware('verifiedLoginUser')->prefix('/')->group(function (){
     });
 
     Route::prefix('survey')->group(function (){
-        Route::get('/add', [SurveyController::class, 'addSurvey'])->name('addSurvey');
+//        Route::get('/add', [SurveyController::class, 'addSurvey'])->name('addSurvey');
         Route::post('/add', [SurveyController::class, 'postAddSurvey'])->name('postAddSurvey');
         Route::get('/', [SurveyController::class, 'listSurveyCompany'])->name('listSurveyCompany');
         Route::post('/detail', [SurveyController::class, 'getDetailSurvey'])->name('detailSurveyCompany');
@@ -96,6 +96,7 @@ Route::middleware('verifiedLoginUser')->prefix('/')->group(function (){
         Route::post('/quiz/detail', [SurveyController::class, 'getdetailQuiz'])->name('getdetailQuiz');
         Route::post('/quiz/update', [SurveyController::class, 'updateQuiz'])->name('updateQuiz');
         Route::post('/status', [SurveyController::class, 'updateStatusSurvey'])->name('updateStatusSurvey');
+        Route::post('/ajax/changedate', [SurveyController::class, 'ajaxChangeDateSurvey'])->name('ajaxChangeDateSurvey');
     });
 
 

@@ -85,6 +85,7 @@
                         </div>
                         <div class="step_give step-hide">
                             <h3>Chọn đối tượng khảo sát</h3>
+                            <input type="hidden" name="obj_survey" value="">
                             <nav class="step_give_tab">
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="nav-home" aria-selected="true">Tất cả</a>
@@ -157,8 +158,19 @@
                         <div class="step_date step-hide">
                             <h3>Chọn thời gian khảo sát</h3>
                             <div class="form-group">
-
-                                <input type="date" class="form-control" id="pwd">
+                                <select name="time_repeat" class="select_time_repeat">
+                                    <option hidden>Chọn</option>
+                                    <option value="1">Lặp lại theo tuần</option>
+                                    <option value="2">Lặp lại theo tháng</option>
+                                    <option value="3">Lặp lại theo quý</option>
+                                    <option value="4">Tùy chọn khác</option>
+                                </select>
+                               <div class="box_show_date">
+                                   <p>Ngày bắt đầu</p>
+                                   <input type="date" name="start_date" id="start_date" min="{{ date("Y-m-d") }}" value="{{ date("Y-m-d") }}">
+                                   <p>Ngày kết thúc</p>
+                                   <input type="date" name="end_date" id="end_date" min="{{ date("Y-m-d") }}" value="{{ date("Y-m-d") }}">
+                               </div>
                             </div>
                             <button type="button" class="btn btn-primary btn-step btn-step-date">Tạo khảo sát</button>
                         </div>
@@ -173,7 +185,8 @@
                                 <label for="exampleFormControlTextarea1">Example textarea</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
                             </div>
-                            <button type="button" class="btn btn-primary btn-step btn-step-email">Tạo khảo sát</button>
+                            <button type="button" class="btn btn-primary btn-step btn-step-email">Khởi chạy ngay</button>
+                            <button type="button" class="btn btn-primary btn-step btn-step-email">Lưu khảo sát</button>
                         </div>
 
 

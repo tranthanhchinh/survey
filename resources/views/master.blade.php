@@ -64,7 +64,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/survey">Danh sách khảo sát</a>
-                        <a class="collapse-item" href="/survey/add">Tạo mới khảo sát</a>
+
                     </div>
                 </div>
             </li>
@@ -414,6 +414,19 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
 <script>
+    function ajaxChangeDateVal(timeRepeat, dateStart){
+        $.ajax({
+            url: "{{ route('ajaxChangeDateSurvey') }}",
+            method: "POST",
+            data: {timeRepeat: timeRepeat, dateStart: dateStart, _token: '{{ csrf_token() }}'},
+            dataType: "json",
+            success: function (data) {
+
+                $('#end_date').attr('max',data.end_date);
+
+            }
+        })
+    }
     $(function() {
         var clicked = false;
         $(".action-bnb-left select").on("change", function() {
@@ -541,6 +554,25 @@
                 }
             })
         })
+
+        // change date creat Survey
+        $('.box_show_date').hide();
+        $('.survey_box').on('change', '.select_time_repeat', function (){
+            var timeRepeat = $(this).val();
+            var dateStart = $('#start_date').val();
+
+            ajaxChangeDateVal(timeRepeat,dateStart);
+            $('.box_show_date').show();
+
+        });
+        $('.survey_box').on('change', '#start_date', function (){
+            var timeRepeat = $( ".select_time_repeat option:selected" ).val();
+            var dateStart = $(this).val();
+            $('#end_date').attr('min',dateStart);
+            $('#end_date').val(dateStart);
+            ajaxChangeDateVal(timeRepeat,dateStart);
+
+        });
 
 
     });
