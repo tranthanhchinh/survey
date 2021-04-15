@@ -1,0 +1,308 @@
+body{
+    font-family: Roboto;
+
+}
+.list-data{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.list-data-info p{
+    margin: 0;
+}
+.list-data li {
+    display: flex;
+    padding: 12px 20px;
+    height: 58px;
+
+}
+.bg-color-li{
+    background: #f5f5f5;
+}
+.list-data-info-name , .list-data-info-action{
+    padding-left: 10px;
+}
+.list-data-info-name{
+    font-weight: 600;
+    color: #444;
+    font-size: 14px;
+}
+.list-data-info-action a{
+    font-size: 13px;
+}
+.list-data-info-action a:hover{
+    color: red;
+    text-decoration: none;
+}
+.container-fluid{
+    margin-bottom: 30px;
+}
+.form-control{
+    border-radius: unset;
+}
+.title-input{
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+.action-btn{
+    display: flex;
+    float: left;
+}
+.remove-all button{
+    background: #4e73df;
+    color: #fff;
+    padding: 2px 10px;
+    font-size: 13px ;
+    font-weight: 600;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+}
+.action-bnb-left select{
+    border: 1px solid #ddd;
+    font-size: 13px;
+    padding: 2px 10px;
+}
+.pagenavi nav{
+    float: right;
+    margin: 15px 15px 0 0;
+}
+.pagenavi .page-link{
+    padding: 3px 8px;
+}
+.fillter-box{
+    float: right;
+    display: flex;
+}
+.fillter-box-text{
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 10px;
+    color: #444;
+    padding-top: 5px;
+}
+.fillter-select select{
+    border: 1px solid #ddd;
+    padding: 2px 5px;
+    font-size: 13px;
+}
+.no-result{
+    text-align: center;
+    font-size: 14px;
+    margin: 0;
+    padding: 10px;
+    color: #333;
+}
+.list-data-info-action{
+    display: none;
+}
+
+/* frontend custom*/
+
+/*------ Custom -----*/
+.login-form h1 {
+    font-weight: 800;
+}
+
+.login-form p {
+    font-size: 14px;
+}
+
+.login-form a {
+    text-decoration: underline;
+}
+
+.login-form form {
+    margin-bottom: 19px;
+}
+
+footer p {
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+p.text-white {
+    color: #fff;
+}
+
+.comment-nav i {
+    margin-left: 7px;
+}
+
+.comment-nav {
+    color: #156BDC !important;
+}
+
+
+.bg-login-image {
+    background: url(../images/img-login.jpg)!important;
+    background-position: center !important;
+    background-size: cover !important;
+}
+
+.bg-register-image {
+    background: url(../images/img-login.jpg)!important;
+    background-position: center !important;
+    background-size: cover !important;
+}
+
+.bg-password-image {
+    background: url(../images/img-login.jpg) !important;
+    background-position: center !important;
+    background-size: cover !important;
+}
+
+body {
+    font-family: Roboto !important;
+}
+
+form.user .form-control-user, form.user .btn-user {
+    border-radius: 5px !important;
+}
+
+.login-form .btn.btn-primary.btn-user.btn-block {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+}
+.anwser_option{
+    display: none;
+}
+.active_anser{
+    display: block;
+}
+.box_group_quiz{
+    border: 1px solid #f5f5f5;
+    padding: 10px;
+}
+.box_quiz{
+    background: #fafafa;
+    padding: 10px;
+    margin: 10px 0;
+}
+#quiz1 #delete-anwser{
+    display: none;
+}
+
+
+.survey-setting-icon {
+    font-size: 19px;
+}
+
+.survey-box-content {
+    margin: 15px 0;
+}
+
+.survey-box-icon {
+    margin-right: 20px;
+}
+
+.survey-box-content h2 {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.bell-button a {
+    color: #4ca400;
+    font-weight: 700;
+    font-size: 13px;
+    padding-left: 25px;
+}
+
+.survey-box small {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.survey-status {
+    margin: 0 !important;
+    padding: 0;
+    line-height: 16px;
+    font-size: 13px;
+}
+
+.survey-stop {
+    background: #f6f6f6;
+}
+
+.survey-stop .survey-status {
+    color: #4e73df !important;
+}
+
+.survey-start .survey-status {
+    color: #4ca400 !important;
+}
+
+.survey-start .progress-bar, .survey-start .bg-progress {
+    background: #4ca400 !important;
+}
+
+.col-auto.bell-button {
+    padding-top: 15px;
+    min-width: 26%;
+}
+
+.survey-pause .survey-status {
+    color: #c29500 !important;
+}
+
+.survey-pause .progress-bar, .survey-pause .bg-progress {
+    background: #c29500 !important;
+}
+
+.survey-end {
+    background: #ebebeb;
+}
+
+.survey-end .survey-status {
+    color: #000000 !important;
+}
+
+.survey-end .progress-bar, .survey-end .bg-progress {
+    background: #000000 !important;
+}
+
+.btn-addnew i {
+    background: #133598;
+    padding: 15px;
+}
+
+.btn-addnew {
+    padding: 0;
+}
+
+.btn-addnew span {
+    padding: 0 16px 0 10px;
+}
+
+/*------- Departments Css --------*/
+
+.list-data-info-name a {
+    color: #414141;
+}
+
+.list-data-info-name a:hover {
+    text-decoration: none;
+    color: #5a5c69;
+}
+
+.list-data-info-action {
+    display: none;
+    line-height: 16px;
+
+}
+
+.list-data-info-name:hover + .list-data-info-action {
+    display: block;
+}
+
+
+
+/* Setep */
+.step-hide{
+    display: none;
+}
+
