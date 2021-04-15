@@ -84,8 +84,10 @@
                             <button type="button" class="btn btn-primary btn-step btn-step-survey">Tạo khảo sát</button>
                         </div>
                         <div class="step_give step-hide">
+
                             <h3>Chọn đối tượng khảo sát</h3>
                             <input type="hidden" name="obj_survey" value="">
+
                             <nav class="step_give_tab">
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="nav-home" aria-selected="true">Tất cả</a>
