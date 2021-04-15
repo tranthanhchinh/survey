@@ -112,7 +112,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-uppercase mb-1 survey-status">Đang chạy</div>
-                                        <small>Kết thúc vào 21/04/2021</small>
+                                        <small>Kết thúc vào 26/04/2021</small>
                                     </div>
                                     <div class="col-auto survey-setting-icon  dropdown no-arrow">
                                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
