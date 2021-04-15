@@ -20,23 +20,6 @@
                     </div>
                 </div>
 
-{{--            <div class="modal fade survey_box" id="popupQuiz" tabindex="-1" role="dialog" aria-labelledby="popupQuiz" aria-hidden="true">--}}
-{{--                <div class="modal-dialog modal-dialog-centered" role="document">--}}
-
-{{--                        <div class="modal-header">--}}
-
-{{--                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    <div class="modal-content">--}}
-{{--                        <div class="modal-body quiz-append ">--}}
-
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
              @foreach($listSurvey as $survey)
                  @if($survey->status == 0)
                     <div class="col-xl-4 col-md-6 mb-4">
@@ -69,23 +52,15 @@
                                                         <i class="fas fa-pause-circle"></i>
                                                     </div>
                                                 </div>
-                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}" data-status="2">Tạm dừng khảo sát</span></div>
+                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}" data-status="1">Chạy khảo sát</span></div>
                                             </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <div class="mr-3">
-                                                    <div class="survey-setting-icon">
-                                                        <i class="fas fa-stop-circle"></i>
-                                                    </div>
-                                                </div>
-                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}" data-status="3">Kết thúc khảo sát</span></div>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <a class="dropdown-item d-flex align-items-center btn_delete_survey" data-id="{{$survey->id }}">
                                                 <div class="mr-3">
                                                     <div class="survey-setting-icon">
                                                         <i class="fas fa-chart-pie"></i>
                                                     </div>
                                                 </div>
-                                                <div><span class="font-weight-bold" data-id="{{$survey->id }}">Xem báo cáo</span></div>
+                                                <div><span class="font-weight-bold" >Xóa khảo sát</span></div>
                                             </a>
                                         </div>
 
@@ -112,7 +87,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-uppercase mb-1 survey-status">Đang chạy</div>
-                                        <small>Kết thúc vào 26/04/2021</small>
+                                        <small>Kết thúc vào {{ date('d/m/Y', strtotime($survey->date_stop)) }}</small>
                                     </div>
                                     <div class="col-auto survey-setting-icon  dropdown no-arrow">
                                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -120,29 +95,22 @@
                                         </a>
                                         <!-- Dropdown - Alerts -->
                                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown2">
-                                            <a class="dropdown-item d-flex align-items-center " data-toggle="modal" data-target="#popupShowDetail">
-                                                <div class="mr-3">
-                                                    <div class="survey-setting-icon">
-                                                        <i class="fas fa-edit"></i>
-                                                    </div>
-                                                </div>
-                                                <div><span class="font-weight-bold btn_click_survey" data-id="{{$survey->id }}">Chỉnh sửa khảo sát</span></div>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
+
+                                            <a class="dropdown-item d-flex align-items-center">
                                                 <div class="mr-3">
                                                     <div class="survey-setting-icon">
                                                         <i class="fas fa-pause-circle"></i>
                                                     </div>
                                                 </div>
-                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}">Tạm dừng khảo sát</span></div>
+                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}" data-status="2">Tạm dừng khảo sát</span></div>
                                             </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <a class="dropdown-item d-flex align-items-center">
                                                 <div class="mr-3">
                                                     <div class="survey-setting-icon">
                                                         <i class="fas fa-stop-circle"></i>
                                                     </div>
                                                 </div>
-                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}">Kết thúc khảo sát</span></div>
+                                                <div><span class="font-weight-bold btn_paused_survey" data-id="{{$survey->id }}" data-status="3">Kết thúc khảo sát</span></div>
                                             </a>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="mr-3">
@@ -151,6 +119,14 @@
                                                     </div>
                                                 </div>
                                                 <div><span class="font-weight-bold">Xem báo cáo</span></div>
+                                            </a>
+                                            <a class="dropdown-item d-flex align-items-center btn_delete_survey" data-id="{{$survey->id }}">
+                                                <div class="mr-3">
+                                                    <div class="survey-setting-icon">
+                                                        <i class="fas fa-chart-pie"></i>
+                                                    </div>
+                                                </div>
+                                                <div><span class="font-weight-bold" >Xóa khảo sát</span></div>
                                             </a>
                                         </div>
 
@@ -204,29 +180,21 @@
                                         </a>
                                         <!-- Dropdown - Alerts -->
                                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown2">
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <div class="mr-3">
-                                                    <div class="survey-setting-icon">
-                                                        <i class="fas fa-edit"></i>
-                                                    </div>
-                                                </div>
-                                                <div><span class="font-weight-bold btn_click_survey">Chỉnh sửa khảo sát</span></div>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <a class="dropdown-item d-flex align-items-center btn_paused_survey" data-status="1" data-id="{{$survey->id }}">
                                                 <div class="mr-3">
                                                     <div class="survey-setting-icon">
                                                         <i class="fas fa-pause-circle"></i>
                                                     </div>
                                                 </div>
-                                                <div><span class="font-weight-bold btn_paused_survey">Tạm dừng khảo sát</span></div>
+                                                <div><span class="font-weight-bold">Chạy lại khảo sát</span></div>
                                             </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <a class="dropdown-item d-flex align-items-center btn_paused_survey" data-id="{{$survey->id }}" data-status="3">
                                                 <div class="mr-3">
                                                     <div class="survey-setting-icon">
                                                         <i class="fas fa-stop-circle"></i>
                                                     </div>
                                                 </div>
-                                                <div><span class="font-weight-bold btn_paused_survey">Kết thúc khảo sát</span></div>
+                                                <div><span class="font-weight-bold ">Kết thúc khảo sát</span></div>
                                             </a>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="mr-3">
@@ -235,6 +203,14 @@
                                                     </div>
                                                 </div>
                                                 <div><span class="font-weight-bold">Xem báo cáo</span></div>
+                                            </a>
+                                            <a class="dropdown-item d-flex align-items-center btn_delete_survey" data-id="{{$survey->id }}">
+                                                <div class="mr-3">
+                                                    <div class="survey-setting-icon">
+                                                        <i class="fas fa-chart-pie"></i>
+                                                    </div>
+                                                </div>
+                                                <div><span class="font-weight-bold" >Xóa khảo sát</span></div>
                                             </a>
                                         </div>
 
@@ -287,30 +263,6 @@
                                         </a>
                                         <!-- Dropdown Survey Settings -->
                                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown2">
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <div class="mr-3">
-                                                    <div class="survey-setting-icon">
-                                                        <i class="fas fa-edit"></i>
-                                                    </div>
-                                                </div>
-                                                <div><span class="font-weight-bold btn_click_survey">Chỉnh sửa khảo sát</span></div>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <div class="mr-3">
-                                                    <div class="survey-setting-icon">
-                                                        <i class="fas fa-pause-circle"></i>
-                                                    </div>
-                                                </div>
-                                                <div><span class="font-weight-bold btn_paused_survey">Tạm dừng khảo sát</span></div>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                <div class="mr-3">
-                                                    <div class="survey-setting-icon">
-                                                        <i class="fas fa-stop-circle"></i>
-                                                    </div>
-                                                </div>
-                                                <div><span class="font-weight-bold ">Kết thúc khảo sát</span></div>
-                                            </a>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="mr-3">
                                                     <div class="survey-setting-icon">
