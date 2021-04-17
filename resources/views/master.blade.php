@@ -31,7 +31,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -43,7 +43,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Tổng quan</span></a>
         </li>
@@ -51,22 +51,24 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
             <div class="sidebar-heading">
-                Interface
+                Khảo sát
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                   aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                <a class="nav-link collapsed" href="{{ URL::to('/survey') }}"
+                   aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
                     <span>Quản lý khảo sát</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/survey">Danh sách khảo sát</a>
+            </li>
 
-                    </div>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ URL::to('/survey/template') }}"
+                   aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Kho mẫu khảo sát</span>
+                </a>
             </li>
 
             <hr class="sidebar-divider">
@@ -550,6 +552,34 @@
                     }
                 })
             }
+        });
+
+        // show detail template
+        $('.act-survey').on('click', '.btn-tp-click', function (){
+               var id = $(this).data('id');
+            $.ajax({
+                url: "{{ route('getDetailSurveyTemplate') }}",
+                method: "POST",
+                data: {id: id, _token: '{{ csrf_token() }}'},
+                dataType: "json",
+                success: function (data) {
+                    $('.show-result-privew').html(data.html);
+                }
+            })
+        })
+
+        // convert template
+        $('.act-survey').on('click', '.btn-tp-click-convert', function (){
+            var id = $(this).data('id');
+            $.ajax({
+                url: "{{ route('convertSurveyAdminToCompany') }}",
+                method: "POST",
+                data: {id: id, _token: '{{ csrf_token() }}'},
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = "{{ route('listSurveyCompany') }}";
+                }
+            })
         })
 
 

@@ -15,6 +15,7 @@ class CompanyController extends Controller
         return view('Admin.Dashboard.dashboard_company');
     }
     public function registerUser(){
+
         if(session('user')){
             return redirect()->route('loginCompany');
         }
@@ -49,7 +50,7 @@ class CompanyController extends Controller
                 }else{
                     return redirect()->route('registerUser')->with('error','Có lỗi khi đăng ký');
                 }
-                dd($dataCompany);
+
             }
         }else{
             return redirect()->route('registerUser')->with('error','Mật khẩu không trùng nhau');

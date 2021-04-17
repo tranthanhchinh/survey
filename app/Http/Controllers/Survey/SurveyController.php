@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Survey;
 use App\Http\Controllers\Controller;
 use App\Models\Company\Department;
 use App\Models\Company\UserStaff;
+use App\Models\Survey\AdminQuestionGroup;
+use App\Models\Survey\AdminQuiz;
+use App\Models\Survey\AdminSurvey;
 use App\Models\Survey\AssignSurvey;
 use App\Models\Survey\EmailSurvey;
 use App\Models\Survey\QuestionGroup;
@@ -21,14 +24,19 @@ class SurveyController extends Controller
         if(session('user')){
             $companyID = session('user')[0]->id;
         }
-        $listSurvey = Survey::where('company_id', '=', $companyID)->orderBy('created_at', 'desc')->get();
+        $listSurvey = Survey::where('company_id', '=', $companyID)->orderBy('created_at', 'desc')->paginate(9);
         $staff = UserStaff::where('company_id', $companyID)->orderBy('created_at', 'desc')->get();
         $department = Department::where('company_id', $companyID)->orderBy('created_at', 'desc')->get();
          return view('Admin.Survey.company_survey_list', ['listSurvey'=>$listSurvey, 'staffs'=>$staff, 'deparments'=>$department]);
     }
 
     public function addSurvey(){
-         return view('Admin.Survey.company_survey_add');
+        if(session('user')){
+            $companyID = session('user')[0]->id;
+        }
+        $staff = UserStaff::where('company_id', $companyID)->orderBy('created_at', 'desc')->get();
+        $department = Department::where('company_id', $companyID)->orderBy('created_at', 'desc')->get();
+         return view('Admin.Survey.company_survey_add',['staffs'=>$staff, 'deparments'=>$department]);
     }
     public function postAddSurvey(Request $request){
 
@@ -162,7 +170,6 @@ class SurveyController extends Controller
             if($checkSurveyID>0){
                 $dataDetail = [];
                 $surveyDetail = Survey::find($idSurvey);
-
                 $dataDetail['id_survey'] = $surveyDetail->id;
                 $dataDetail['name'] = $surveyDetail->name;
                 $dataDetail['description'] = $surveyDetail->description;
@@ -239,5 +246,96 @@ class SurveyController extends Controller
                 EmailSurvey::where('survey_id', '=', $id)->delete();
                 return response()->json(['message'=> 'Susscess']);
            }
+    }
+
+    // Kho mẫu khảo sát
+    public function surveyTemplate(){
+        $listSurveyTemplate = AdminSurvey::orderBy('created_at', 'desc')->paginate(10);
+        return view('Admin.Survey.company_survey_template', ['listTemplates'=> $listSurveyTemplate]);
+    }
+
+    public function getDetailSurveyTemplateByID($id){
+        $idSurvey = $id;
+        $checkSurveyID = AdminSurvey::where('id', '=', $idSurvey)->count();
+        $dataDetail = [];
+        if($checkSurveyID>0){
+            $surveyDetail = AdminSurvey::find($idSurvey);
+            $dataDetail['id_survey'] = $surveyDetail->id;
+            $dataDetail['name'] = $surveyDetail->name;
+            $dataDetail['description'] = $surveyDetail->description;
+            $groupQuiz = AdminSurvey::find($idSurvey)->questionGroup;
+            foreach ($groupQuiz as $key=>$group){
+                $quizs = AdminQuestionGroup::find($group->id)->quiz;
+                $dataDetail['group'][$key]['id'] = $group->id;
+                $dataDetail['group'][$key]['group_name'] = $group->name;
+                foreach ($quizs as $keyq =>$quiz){
+                    $anwsers = AdminQuiz::find($quiz->id)->quizAnwser;
+                    $dataDetail['group'][$key]['quiz'][$keyq]['id'] = $quiz->id;
+                    $dataDetail['group'][$key]['quiz'][$keyq]['quiz_name'] = $quiz->title;
+                    $dataDetail['group'][$key]['quiz'][$keyq]['type'] = $quiz->type;
+                    foreach ($anwsers as $keya =>$anwser){
+                        $dataDetail['group'][$key]['quiz'][$keyq]['anwser'][$keya]['id'] = $anwser->id;
+                        $dataDetail['group'][$key]['quiz'][$keyq]['anwser'][$keya]['anwser_opt'] = $anwser->answer;
+                    }
+                }
+            }
+
+        }
+        return $dataDetail;
+    }
+
+    public function getDetailSurveyTemplate(Request $request){
+        $idSurvey = (int)$request->id;
+        $dataDetail = $this->getDetailSurveyTemplateByID($idSurvey);
+        $returnHTML = view('Admin.Survey.company_survey_preview')->with('details', $dataDetail)->render();
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
+    }
+
+    public function convertSurveyAdminToCompany(Request $request){
+        $idSurvey = (int)$request->id;
+        $dataDetail = $this->getDetailSurveyTemplateByID($idSurvey);
+        if(session('user')){
+            $companyID = session('user')[0]->id;
+        }
+        $survey = new Survey();
+        $survey->name = $dataDetail['name'];
+        $survey->description = $dataDetail['description'];
+        $survey->company_id = $companyID;
+        $survey->status = 0;
+        if($survey->save()){
+            $idSurvey = $survey->id;
+        }
+        foreach ($dataDetail['group'] as $group){
+            $groups = new QuestionGroup();
+            $groups->name = $group['group_name'];
+            $groups->survey_id = $idSurvey;
+            if($groups->save()){
+                $idGroup = $groups->id;
+            }
+            foreach ($group['quiz'] as $quiz){
+                $quizs = new Quiz();
+                $quizs->title = $quiz['quiz_name'];
+                $quizs->type = $quiz['type'];
+                $quizs->survey_id = $idSurvey;
+                $quizs->group_id = $idGroup;
+                if($quizs->save()){
+                    $quizID =  $quizs->id;
+                }
+                if($quiz['type'] == 4){
+                    foreach ($quiz['anwser'] as $anwser){
+                        $anwsers = new QuizAnwser();
+                        $anwsers->answer = $anwser['anwser_opt'];
+                        $anwsers->quiz_id = $quizID;
+                        $anwsers->type = $quiz['type'];
+                        $anwsers->survey_id = $idSurvey;
+                        $anwsers->save();
+                    }
+                }
+            }
+
+        }
+
+        return response()->json(['message'=>'Done']);
+
     }
 }

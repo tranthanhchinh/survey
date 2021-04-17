@@ -313,7 +313,7 @@
              @endforeach
 
         </div>
-
+        {{ $listSurvey->links() }}
     </div>
 
     <!-- Modal -->

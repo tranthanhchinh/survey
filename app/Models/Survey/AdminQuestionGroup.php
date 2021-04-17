@@ -12,8 +12,8 @@ class AdminQuestionGroup extends Model
     public function survey(){
         return $this->belongsTo(AdminSurvey::class);
     }
-
     public function quiz(){
         return $this->hasMany(AdminQuiz::class, 'tp_question_group_id');
     }
+
 }
