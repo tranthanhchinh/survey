@@ -19,6 +19,6 @@ class AdminSurvey extends Model
             ->saveSlugsTo('slug');
     }
     public function questionGroup(){
-        return $this->hasMany(AdminQuestionGroup::class);
+        return $this->hasMany(AdminQuestionGroup::class,'tp_survey_id');
     }
 }

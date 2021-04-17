@@ -52,6 +52,7 @@
                             <div class="input-check">
                                 <input type="checkbox" name="allcheck[]" value="{{ $department->id }}">
                             </div>
+                            <a href="/departments/edit/{{ $department->id }}">
                             <div class="list-data-info">
                                 <p class="list-data-info-name"><a href="/departments/edit/{{ $department->id }}">{{ $department->name }}</a></p>
                                 <p class="list-data-info-action">
@@ -59,7 +60,7 @@
                                     <a href="/departments/delete/{{ $department->id }}" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa </a>
                                 </p>
                             </div>
-
+                            </a>
 
                         </li>
                     @endforeach

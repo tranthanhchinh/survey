@@ -1,12 +1,6 @@
-@extends('master')
-@section('content')
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-        Launch demo modal
-    </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="btn_add_survey" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -88,72 +82,66 @@
                             <input type="hidden" name="obj_survey" value="">
                             <nav class="step_give_tab">
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="nav-home" aria-selected="true">Tất cả</a>
-                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#department" role="tab" aria-controls="nav-profile" aria-selected="false">Phòng ban</a>
-                                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#staff" role="tab" aria-controls="nav-contact" aria-selected="false">Nhân viên</a>
-                                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#email_list" role="tab" aria-controls="nav-contact" aria-selected="false">Địa chỉ email</a>
+                                    <a class="nav-item nav-link obj_survey_click btn-step-give" data-obj="1" id="nav-home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="nav-home" aria-selected="true">Tất cả</a>
+                                    <a class="nav-item nav-link obj_survey_click" data-obj="2" id="nav-profile-tab" data-toggle="tab" href="#department" role="tab" aria-controls="nav-profile" aria-selected="false">Phòng ban</a>
+                                    <a class="nav-item nav-link obj_survey_click" data-obj="3" id="nav-contact-tab" data-toggle="tab" href="#staff" role="tab" aria-controls="nav-contact" aria-selected="false">Nhân viên</a>
+                                    <a class="nav-item nav-link obj_survey_click" data-obj="4" id="nav-contact-tab" data-toggle="tab" href="#email_list" role="tab" aria-controls="nav-contact" aria-selected="false">Địa chỉ email</a>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="nav-home-tab">
 
-                                </div>
                                 <div class="tab-pane fade" id="department" role="tabpanel" aria-labelledby="nav-profile-tab">
                                     <ul class="list-data">
-                                            <li class="">
-                                                <div class="input-check">
-                                                    <input type="checkbox" name="allcheck[]" value="" id="checked">
-                                                </div>
-                                                <div class="list-data-info">
-                                                    <p class="list-data-info-name">Phòng nhân sự</p>
-                                                </div>
+                                        @if($deparments)
+                                            @foreach($deparments as $deparment)
+                                                <li class="">
+                                                    <div class="input-check">
+                                                        <input type="checkbox" name="department[]" value="{{ $deparment->id }}">
+                                                    </div>
+                                                    <div class="list-data-info">
+                                                        <p class="list-data-info-name">{{ $deparment->name }}</p>
+                                                    </div>
 
-                                            </li>
-                                        <li class="">
-                                            <div class="input-check">
-                                                <input type="checkbox" name="allcheck[]" value="" id="checked">
-                                            </div>
-                                            <div class="list-data-info">
-                                                <p class="list-data-info-name">Phòng giám đốc</p>
-                                            </div>
+                                                </li>
 
-                                        </li>
-
-
+                                            @endforeach
+                                        @endif
                                     </ul>
+                                    <button type="button" class="btn btn-primary btn-step btn-step-give">Tạo khảo sát</button>
                                 </div>
                                 <div class="tab-pane fade" id="staff" role="tabpanel" aria-labelledby="nav-contact-tab">
                                     <ul class="list-data">
-                                        <li class="">
-                                            <div class="input-check">
-                                                <input type="checkbox" name="allcheck[]" value="" id="checked">
-                                            </div>
-                                            <div class="list-data-info">
-                                                <p class="list-data-info-name">Phòng nhân sự</p>
-                                            </div>
+                                        @if($staffs)
+                                            @foreach($staffs as $staff)
+                                                <li class="">
+                                                    <div class="input-check">
 
-                                        </li>
-                                        <li class="">
-                                            <div class="input-check">
-                                                <input type="checkbox" name="allcheck[]" value="" id="checked">
-                                            </div>
-                                            <div class="list-data-info">
-                                                <p class="list-data-info-name">Phòng giám đốc</p>
-                                            </div>
+                                                        <input type="checkbox" name="staff[]" value="{{ $staff->email }}">
 
-                                        </li>
+                                                    </div>
+                                                    <div class="list-data-info">
+                                                        <p class="list-data-info-name">{{ $staff->name.'('.$staff->email.')' }}</p>
+                                                    </div>
 
+                                                </li>
+
+                                            @endforeach
+                                        @endif
 
                                     </ul>
+                                    <button type="button" class="btn btn-primary btn-step btn-step-give">Tạo khảo sát</button>
                                 </div>
                                 <div class="tab-pane fade" id="email_list" role="tabpanel" aria-labelledby="nav-contact-tab">
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1">Example file input</label>
                                         <input type="file" class="form-control-file" id="exampleFormControlFile1">
                                     </div>
+                                    <button type="button" class="btn btn-primary btn-step btn-step-give">Tạo khảo sát</button>
                                 </div>
+
+
                             </div>
-                            <button type="button" class="btn btn-primary btn-step btn-step-give">Tạo khảo sát</button>
+
                         </div>
                         <div class="step_date step-hide">
                             <h3>Chọn thời gian khảo sát</h3>
@@ -165,32 +153,33 @@
                                     <option value="3">Lặp lại theo quý</option>
                                     <option value="4">Tùy chọn khác</option>
                                 </select>
-                               <div class="box_show_date">
-                                   <p>Ngày bắt đầu</p>
-                                   <input type="date" name="start_date" id="start_date" min="{{ date("Y-m-d") }}" value="{{ date("Y-m-d") }}">
-                                   <p>Ngày kết thúc</p>
-                                   <input type="date" name="end_date" id="end_date" min="{{ date("Y-m-d") }}" value="{{ date("Y-m-d") }}">
-                               </div>
+                                <div class="box_show_date">
+                                    <p>Ngày bắt đầu</p>
+                                    <input type="date" name="start_date" id="start_date" min="{{ date("Y-m-d") }}" value="{{ date("Y-m-d") }}">
+                                    <p>Ngày kết thúc</p>
+                                    <input type="date" name="end_date" id="end_date" min="{{ date("Y-m-d") }}" value="{{ date("Y-m-d") }}">
+                                </div>
                             </div>
                             <button type="button" class="btn btn-primary btn-step btn-step-date">Tạo khảo sát</button>
                         </div>
                         <div class="step_email step-hide">
-                             <h3>Lời mời khảo sát qua email</h3>
+                            <h3>Lời mời khảo sát qua email</h3>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <label for="exampleInputEmail1">Tiêu đề</label>
+                                <input type="text" name="title_email" class="form-control"  placeholder="Nhập tiêu đề">
 
                             </div>
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Example textarea</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                <label for="exampleFormControlTextarea1">Nội dung</label>
+                                <textarea class="form-control" name="content_email" rows="5"></textarea>
                             </div>
-                            <button type="button" class="btn btn-primary btn-step btn-step-email">Khởi chạy ngay</button>
-                            <button type="button" class="btn btn-primary btn-step btn-step-email">Lưu khảo sát</button>
+                            <input type="hidden" name="status" value="0">
+                            <button type="submit" class="btn btn-primary btn-run-now">Khởi chạy ngay</button>
+                            <button type="submit" class="btn btn-primary">Lưu khảo sát</button>
                         </div>
 
 
-{{--                        <button type="submit" class="btn btn-primary" >Tạo khảo sát</button>--}}
+                        {{--                        <button type="submit" class="btn btn-primary" >Tạo khảo sát</button>--}}
                     </form>
 
                 </div>
@@ -199,5 +188,4 @@
         </div>
     </div>
 
-@endsection
 

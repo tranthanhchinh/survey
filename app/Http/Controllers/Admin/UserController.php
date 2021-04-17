@@ -260,8 +260,10 @@ class UserController extends Controller
             return redirect()->route('loginCompany');
         }
     }
-    public function logoutCompany(){
+    public function logoutCompany(Request $request){
+
         Session::forget('user');
+
         return redirect()->route('loginCompany');
     }
 }

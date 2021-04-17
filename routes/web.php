@@ -30,6 +30,7 @@ Route::post('/company', [UserController::class, 'postloginCompany'])->name('post
 Route::get('/dashboard', [CompanyController::class, 'dashboardCompany'])->name('dashboardCompany');
 Route::get('/register', [CompanyController::class, 'registerUser'])->name('registerUser');
 Route::post('/register', [CompanyController::class, 'postRegisterUser'])->name('postRegisterUser');
+
 Route::prefix('admin')->group(function (){
     Route::get('/logout', [UserController::class, 'logout'])->name('admin.logout');
     Route::prefix('dashboard')->group(function (){
@@ -88,7 +89,7 @@ Route::middleware('verifiedLoginUser')->prefix('/')->group(function (){
     });
 
     Route::prefix('survey')->group(function (){
-//        Route::get('/add', [SurveyController::class, 'addSurvey'])->name('addSurvey');
+        Route::get('/add', [SurveyController::class, 'addSurvey'])->name('addSurvey');
         Route::post('/add', [SurveyController::class, 'postAddSurvey'])->name('postAddSurvey');
         Route::get('/', [SurveyController::class, 'listSurveyCompany'])->name('listSurveyCompany');
         Route::post('/detail', [SurveyController::class, 'getDetailSurvey'])->name('detailSurveyCompany');
@@ -98,6 +99,9 @@ Route::middleware('verifiedLoginUser')->prefix('/')->group(function (){
         Route::post('/status', [SurveyController::class, 'updateStatusSurvey'])->name('updateStatusSurvey');
         Route::post('/ajax/changedate', [SurveyController::class, 'ajaxChangeDateSurvey'])->name('ajaxChangeDateSurvey');
         Route::post('/delete',[SurveyController::class, 'deleteSurvey'])->name('deleteSurvey');
+        Route::get('/template', [SurveyController::class, 'surveyTemplate'])->name('surveyTemplate');
+        Route::post('/detail/template',[SurveyController::class, 'getDetailSurveyTemplate'])->name('getDetailSurveyTemplate');
+        Route::post('/convert',[SurveyController::class, 'convertSurveyAdminToCompany'])->name('convertSurveyAdminToCompany');
     });
 
 
